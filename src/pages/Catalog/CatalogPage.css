@@ -1,0 +1,179 @@
+/* ==========================================================================
+   LavenderNest Catalog Page Styles
+   ========================================================================== */
+
+.catalog-page {
+  padding-top: 3.5rem;
+  padding-bottom: 6rem;
+}
+
+.catalog-header {
+  margin-bottom: 2.5rem;
+}
+
+.catalog-title {
+  font-family: var(--font-heading);
+  font-size: 2.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.catalog-subtitle {
+  font-size: 1.1rem;
+  color: var(--clr-text-secondary);
+  max-width: 600px;
+}
+
+.catalog-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.25rem 1.75rem;
+  border-radius: var(--radius-lg);
+  margin-bottom: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.catalog-search {
+  position: relative;
+  flex-grow: 1;
+  min-width: 260px;
+}
+
+.catalog-search input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
+  border-radius: var(--radius-md);
+  background: rgba(13, 10, 18, 0.7);
+  border: 1px solid var(--clr-border);
+  color: #fff;
+  font-size: 0.92rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.catalog-search input:focus {
+  outline: none;
+  border-color: var(--clr-primary);
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.35);
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.95rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--clr-text-muted);
+}
+
+.catalog-sort-group {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--clr-text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-label input {
+  accent-color: var(--clr-primary);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.sort-select-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(13, 10, 18, 0.7);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  padding: 0 0.85rem;
+  color: var(--clr-lavender-accent);
+}
+
+.sort-select {
+  background: transparent;
+  border: none;
+  color: #fff;
+  padding: 0.75rem 0.5rem;
+  font-size: 0.88rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.sort-select option {
+  background: #181224;
+  color: #fff;
+}
+
+/* Category Pills */
+.category-pills {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.pill-btn {
+  padding: 0.55rem 1.25rem;
+  border-radius: var(--radius-full);
+  background: var(--clr-bg-card);
+  border: 1px solid var(--clr-border);
+  color: var(--clr-text-secondary);
+  font-size: 0.88rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.pill-btn:hover {
+  border-color: var(--clr-primary);
+  color: #fff;
+}
+
+.pill-btn.active {
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  border-color: #a855f7;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.35);
+}
+
+/* Empty Catalog State */
+.empty-catalog {
+  padding: 5rem 2rem;
+  border-radius: var(--radius-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.empty-icon {
+  color: var(--clr-lavender-accent);
+  opacity: 0.7;
+}
+
+.empty-catalog h3 {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+}
+
+.empty-catalog p {
+  color: var(--clr-text-secondary);
+  max-width: 440px;
+  margin-bottom: 1rem;
+}
