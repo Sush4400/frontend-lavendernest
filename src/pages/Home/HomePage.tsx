@@ -42,6 +42,7 @@ export const HomePage: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [email, setEmail] = useState('')
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
     const fetchFeatured = async () => {
@@ -73,6 +74,13 @@ export const HomePage: React.FC = () => {
     setEmail('')
   }
 
+  const handleShowcaseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const rotateY = ((e.clientX - rect.left) / rect.width - 0.5) * 18
+    const rotateX = ((e.clientY - rect.top) / rect.height - 0.5) * -18
+    setTilt({ x: rotateY, y: rotateX })
+  }
+
   return (
     <div className="home-page">
       {/* ─── Hero Section ──────────────────────────── */}
@@ -85,11 +93,11 @@ export const HomePage: React.FC = () => {
               <span>Artisanal & Handcrafted With Love</span>
             </div>
             <h1 className="hero-title">
-              Elegance for Your Sanctuary, Handcrafted to Perfection.
+              Calm interiors, <span className="gradient-text">crafted</span> with intention.
             </h1>
             <p className="hero-subtitle">
               Discover clean-burning organic soy candles, everlasting plush chenille flowers,
-              and artisanal home accents designed to bring serenity into your living spaces.
+              and artisan home accents designed to turn every corner into a soothing retreat.
             </p>
             <div className="hero-actions">
               <Link to="/products" className="btn btn-primary btn-lg">
@@ -114,31 +122,28 @@ export const HomePage: React.FC = () => {
               <div className="stat-divider"></div>
               <div className="stat-item">
                 <span className="stat-number">4.9 ★</span>
-                <span className="stat-label">Customer Rating</span>
+                <span className="stat-label">Loved by homes</span>
               </div>
             </div>
           </div>
 
-          <div className="hero-visual">
-            <div className="hero-image-card">
-              <img
-                src="https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=900&q=80"
-                alt="LavenderNest Handcrafted Candle and Flora"
-                className="hero-main-img"
-              />
-              <div className="hero-floating-card top-right glass">
-                <Heart size={16} className="text-accent" />
-                <div>
-                  <span className="floating-title">100% Eco-Friendly</span>
-                  <span className="floating-sub">Organic Soy & Cotton</span>
-                </div>
+          <div className="hero-visual" aria-label="Product showcase">
+            <div
+              className="hero-showcase"
+              onMouseMove={handleShowcaseMove}
+              onMouseLeave={() => setTilt({ x: 0, y: 0 })}
+              style={{
+                transform: `perspective(1200px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
+              }}
+            >
+              <div className="showcase-orbit orbit-one"></div>
+              <div className="showcase-orbit orbit-two"></div>
+              <div className="showcase-plate showcase-top">
+                <span className="showcase-label">Lavender Glow</span>
               </div>
-              <div className="hero-floating-card bottom-left glass">
-                <Gift size={16} className="text-lavender" />
-                <div>
-                  <span className="floating-title">Artisan Gift Packaging</span>
-                  <span className="floating-sub">Included with all orders</span>
-                </div>
+              <div className="showcase-plate showcase-bottom">
+                <div className="showcase-sheen"></div>
+                <span className="showcase-cta">Curated for quiet luxury</span>
               </div>
             </div>
           </div>

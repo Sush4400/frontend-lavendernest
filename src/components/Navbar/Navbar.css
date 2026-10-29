@@ -79,6 +79,14 @@
   padding: 0.45rem 0.7rem;
   color: var(--clr-text-muted);
   transition: var(--transition-fast);
+  border: none !important;
+  outline: none !important;
+  background: transparent;
+}
+.search-btn:focus, .search-btn:focus-visible, .search-btn:active {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 .search-btn:hover { color: var(--clr-primary-400); }
 

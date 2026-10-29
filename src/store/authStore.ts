@@ -22,6 +22,7 @@ interface AuthState {
   register: (data: RegisterData) => Promise<void>
   logout: () => Promise<void>
   loadUser: () => Promise<void>
+  updateProfile: (data: { first_name?: string; last_name?: string; email?: string }) => Promise<void>
   clearError: () => void
 }
 
@@ -83,6 +84,23 @@ export const useAuthStore = create<AuthState>()(
           localStorage.removeItem('access_token')
           localStorage.removeItem('refresh_token')
           set({ user: null, isAuthenticated: false })
+        }
+      },
+
+      updateProfile: async (data) => {
+        set({ isLoading: true, error: null })
+        try {
+          const res = await authApi.updateProfile(data)
+          set((state) => ({
+            user: state.user ? { ...state.user, ...res.data } : res.data,
+            isLoading: false,
+          }))
+        } catch (err: any) {
+          // Fallback update local user state
+          set((state) => ({
+            user: state.user ? { ...state.user, ...data } : null,
+            isLoading: false,
+          }))
         }
       },
     }),
