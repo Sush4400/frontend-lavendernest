@@ -10,6 +10,8 @@ export interface AuthUser {
   last_name: string
   full_name: string
   role: 'customer' | 'staff' | 'admin'
+  is_staff?: boolean
+  is_superuser?: boolean
   date_joined: string
 }
 
@@ -24,6 +26,32 @@ interface AuthState {
   loadUser: () => Promise<void>
   updateProfile: (data: { first_name?: string; last_name?: string; email?: string }) => Promise<void>
   clearError: () => void
+}
+
+const formatApiError = (err: any, fallback: string): string => {
+  if (!err.response) {
+    return 'Cannot connect to backend server. Please make sure the backend is running at http://localhost:8000.'
+  }
+  const data = err.response.data
+  if (!data) return fallback
+  if (typeof data === 'string') return data
+  if (data.detail && typeof data.detail === 'string') return data.detail
+  if (data.error && typeof data.error === 'string') return data.error
+  if (data.message && typeof data.message === 'string') return data.message
+
+  // Field errors dict from DRF e.g. { email: ["..."], password: ["..."] }
+  const messages: string[] = []
+  for (const [, val] of Object.entries(data)) {
+    if (Array.isArray(val)) {
+      messages.push(val.join(' '))
+    } else if (typeof val === 'string') {
+      messages.push(val)
+    }
+  }
+  if (messages.length > 0) {
+    return messages.join(' ')
+  }
+  return fallback
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -44,7 +72,7 @@ export const useAuthStore = create<AuthState>()(
           localStorage.setItem('refresh_token', res.data.refresh)
           set({ user: res.data.user, isAuthenticated: true, isLoading: false })
         } catch (err: any) {
-          const errMsg = err.response?.data?.detail || 'Invalid email or password.'
+          const errMsg = formatApiError(err, 'Invalid email or password.')
           set({ isLoading: false, error: errMsg })
           throw err
         }
@@ -58,7 +86,7 @@ export const useAuthStore = create<AuthState>()(
           localStorage.setItem('refresh_token', res.data.tokens.refresh)
           set({ user: res.data.user, isAuthenticated: true, isLoading: false })
         } catch (err: any) {
-          const errMsg = err.response?.data?.detail || 'Registration failed.'
+          const errMsg = formatApiError(err, 'Registration failed. Please check your details.')
           set({ isLoading: false, error: errMsg })
           throw err
         }
@@ -66,17 +94,24 @@ export const useAuthStore = create<AuthState>()(
 
       logout: async () => {
         const refresh = localStorage.getItem('refresh_token')
-        if (refresh) {
-          try { await authApi.logout(refresh) } catch { /* ignore */ }
-        }
         localStorage.removeItem('access_token')
         localStorage.removeItem('refresh_token')
         set({ user: null, isAuthenticated: false, error: null })
+        if (refresh) {
+          try {
+            await authApi.logout(refresh)
+          } catch {
+            // Ignore background token invalidation error
+          }
+        }
       },
 
       loadUser: async () => {
         const token = localStorage.getItem('access_token')
-        if (!token) return
+        if (!token) {
+          set({ user: null, isAuthenticated: false })
+          return
+        }
         try {
           const res = await authApi.me()
           set({ user: res.data, isAuthenticated: true })

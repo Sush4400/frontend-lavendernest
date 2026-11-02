@@ -104,16 +104,16 @@ export const LoginPage: React.FC = () => {
             <button
               type="button"
               className="demo-btn"
-              onClick={() => handleQuickDemoLogin('customer@lavendernest.com', 'customer12345')}
+              onClick={() => handleQuickDemoLogin('customer@lavendernest.in', 'CustomerPass123!')}
             >
-              Sophia Rose (Customer)
+              Aarushi Mehta (Customer)
             </button>
             <button
               type="button"
               className="demo-btn"
-              onClick={() => handleQuickDemoLogin('admin@lavendernest.com', 'admin12345')}
+              onClick={() => handleQuickDemoLogin('admin@lavendernest.in', 'AdminPass123!')}
             >
-              Eleanor Vane (Admin/Staff)
+              Store Admin
             </button>
           </div>
         </div>

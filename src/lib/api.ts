@@ -94,6 +94,38 @@ export const paymentsApi = {
   verify: (data: VerifyPaymentData) => api.post('/payments/verify/', data),
 }
 
+// ─── Admin API ──────────────────────────────────
+export const adminApi = {
+  // Studio Dashboard stats
+  getStats: () => api.get('/products/stats/'),
+
+  // Products
+  listProducts: (params?: Record<string, unknown>) => api.get('/products/', { params }),
+  createProduct: (data: any) => api.post('/products/', data),
+  updateProduct: (id: string, data: any) => api.patch(`/products/${id}/`, data),
+  deleteProduct: (id: string) => api.delete(`/products/${id}/`),
+  duplicateProduct: (id: string) => api.post(`/products/${id}/duplicate/`),
+  restockProduct: (id: string, quantity: number) => api.post(`/products/${id}/restock/`, { quantity }),
+  uploadProductImage: (id: string, formData: FormData) =>
+    api.post(`/products/${id}/upload_image/`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }),
+
+  // Categories
+  listCategories: () => api.get('/products/categories/'),
+  createCategory: (data: any) => api.post('/products/categories/', data),
+  updateCategory: (slug: string, data: any) => api.patch(`/products/categories/${slug}/`, data),
+  deleteCategory: (slug: string) => api.delete(`/products/categories/${slug}/`),
+
+  // Orders
+  listOrders: (params?: Record<string, unknown>) => api.get('/orders/', { params }),
+  updateOrderStatus: (id: string, data: { status?: string; tracking_number?: string; notes?: string }) =>
+    api.patch(`/orders/${id}/update_status/`, data),
+
+  // Customers
+  listCustomers: () => api.get('/auth/admin/customers/'),
+}
+
 // ─── Types ──────────────────────────────────────
 export interface RegisterData {
   email: string; first_name: string; last_name: string;

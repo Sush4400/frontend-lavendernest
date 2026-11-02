@@ -87,7 +87,7 @@ const Navbar: React.FC = () => {
                 </Link>
                 {(user?.role === 'admin' || user?.role === 'staff') && (
                   <a
-                    href="http://localhost:8000/admin/"
+                    href="http://localhost:8001/admin/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="dropdown-item"

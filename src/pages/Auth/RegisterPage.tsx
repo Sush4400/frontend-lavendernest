@@ -40,8 +40,15 @@ export const RegisterPage: React.FC = () => {
       })
       toast.success('Account created! Welcome to LavenderNest.', { icon: '🌿' })
       navigate('/', { replace: true })
-    } catch {
-      toast.error('Registration failed. Please check your details.')
+    } catch (err: any) {
+      const msg =
+        err.response?.data?.email?.[0] ||
+        err.response?.data?.password?.[0] ||
+        err.response?.data?.detail ||
+        (err.response
+          ? 'Registration failed. Please check your details.'
+          : 'Cannot connect to server. Please ensure backend is running at http://localhost:8000.')
+      toast.error(msg)
     }
   }
 
